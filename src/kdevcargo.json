@@ -1,0 +1,14 @@
+{
+    "KPlugin": {
+        "Description": "kdevcargo", 
+        "Description[x-test]": "xxkdevcargoxx", 
+        "Id": "kdevcargo", 
+        "Name": "kdevcargo", 
+        "Name[x-test]": "xxkdevcargoxx", 
+        "ServiceTypes": [
+            "KDevelop/Plugin"
+        ]
+    }, 
+    "X-KDevelop-Category": "Global", 
+    "X-KDevelop-Mode": "GUI"
+}
