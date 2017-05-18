@@ -2,36 +2,38 @@
 
 [![Codefresh build status]( https://g.codefresh.io/api/badges/build?repoOwner=Noughmad&repoName=kdevcargo&branch=master&pipelineName=kdevcargo&accountName=Noughmad&type=cf-1)]( https://g.codefresh.io/repositories/Noughmad/kdevcargo/builds?filter=trigger:build;branch:master;service:591d7e9809f4a600015ecd49~kdevcargo)
 
+This plugin enables the use of Cargo to manage, build and run Rust packages (crates) with Cargo.
+It recognizes `Cargo.toml` files as project files, builds them using `cargo build`, and allows easy run configuration using `cargo run`.
+
+
 ## Installation instructions
 
-Make sure the project is configured to install to the directory of your choice:
+This plugin supports KDevelop 5, so make sure have kdevplatform libraries development headers (`kdevplatform-dev` on ubuntu) version 5 or later.
+You also need `cmake` and `extra-cmake-modules` to build it.
+To use the plugin, the `cargo` executable must be installed and in your `PATH`.
 
-In KDevelop, select the menu entry "Project" > "Open Configuration...",
-then in the dialog choose the tab "CMake",
-there select in the "Cache Values" list the entry with the name `CMAKE_INSTALL_PREFIX`
-and ensure the correct path is set.
+Download this repository, then run
 
-If you install to a custom directory, you need to extend the `QT_PLUGIN_PATH`
-environment variable that KDevelop sees when it is started. The path to be added
-is the "plugins" subdir, whose exact path depends on the operating system and
-if that is a 64 bit or 32 bit one.
-On Debian, Ubuntu & similar with a 64 bit system add:
-    $my_install_prefix/lib/x86_64-linux-gnu/plugins
-On openSUSE & similar with a 64 bit system add:
-    $my_install_prefix/lib64/plugins
-(where `$my_install_prefix` is the directory `CMAKE_INSTALL_PREFIX` is set to)
+    mkdir build && cmake .. && make
+    sudo make install
 
-If you are unsure, check in the installation log the path to which the plugin is installed.
+This installs to a system directory, most likely `/usr/local`, but it will not be picked up by KDevelop.
+To make KDevelop load this plugin, set the `QT_PLUGIN_PATH` environment variable to point to its install location.
+If it was installed to `/usr/local/lib64/plugins/kdevplatform/27/kdevcargo.so`, run from a console
 
+    QT_PLUGIN_PATH=${QT_PLUGIN_PATH}:/usr/local/lib64/plugins kdevelop
 
-Example:
-When CMAKE_INSTALL_PREFIX is set to "/home/userX/projects/mykdevplugin/" and
-this is a Debian 64-bit system, open a console and enter:
+If everything went well, you should see the Cargo plugin listed in "Settings" => "Configure KDevelop..." => "Plugins", under the "Project Management" section.
+You can also verify a successful installation by clicking "Project" => "Open / Import Project". Cargo files (`Cargo.toml`) should be selectable and available as a filter.
 
-    export QT_PLUGIN_PATH=$QT_PLUGIN_PATH:/home/userX/projects/mykdevplugin/lib/x86_64-linux-gnu/plugins
+## Opening and Building a project
 
-Then start KDevelop from that console:
+To use the plugin, import a Rust project by clicking "Project" => "Open / Import Project" and selecting a `Cargo.toml` file.
+The Build and Clean commands already work.
 
-    kdevelop
+## Running a binary
 
-If everything went well, you should see "Hello world, my plugin is loaded!" printed in the console and find the plugin also listed in the dialog opened by the menu entry "Help" > "Loaded Plugins".
+If your crate is a binary (as opposed to a library) crate, you can use `cargo run` through KDevelop as well.
+Open the launch configuration dialog ("Run" => "Configure Launches..."), then click "Add New" => "Cargo Launcher".
+If the crate has multiple executables, enter it in the launch configuration, and it well be passed to `cargo run` as the `--bin` argument.
+Optionally, you can also specify arguments that will be passed to your executable.
