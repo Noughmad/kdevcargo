@@ -1,14 +1,32 @@
 {
     "KPlugin": {
-        "Description": "kdevcargo", 
-        "Description[x-test]": "xxkdevcargoxx", 
-        "Id": "kdevcargo", 
-        "Name": "kdevcargo", 
-        "Name[x-test]": "xxkdevcargoxx", 
+        "Authors": [
+            {
+                "Name": "Miha Ćančula"
+            }
+        ],
+        "Category": "Project Management",
+        "Description": "Allows to use Cargo to build Rust projects",
+        "Icon": "cargo",
+        "Id": "KDevCargo",
+        "Name": "Cargo",
         "ServiceTypes": [
             "KDevelop/Plugin"
         ]
-    }, 
-    "X-KDevelop-Category": "Global", 
-    "X-KDevelop-Mode": "GUI"
+    },
+    "X-KDevelop-Category": "Project",
+    "X-KDevelop-IRequired": [
+        "org.kdevelop.IOutputView"
+    ],
+    "X-KDevelop-Interfaces": [
+        "org.kdevelop.IProjectBuilder",
+        "org.kdevelop.IProjectFileManager",
+        "org.kdevelop.IBuildSystemManager",
+        "org.kdevelop.IExecutePlugin"
+    ],
+    "X-KDevelop-Mode": "NoGUI",
+    "X-KDevelop-ProjectFilesFilter": [
+        "Cargo.toml"
+    ],
+    "X-KDevelop-ProjectFilesFilterDescription": "Cargo files"
 }
