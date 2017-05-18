@@ -1,4 +1,6 @@
-# Simple KDevelop Plugin
+# KDevelop plugin with support for Cargo
+
+[![Build Status](https://travis-ci.org/Noughmad/kdevcargo.svg?branch=master)](https://travis-ci.org/Noughmad/kdevcargo)
 
 ## Installation instructions
 
@@ -26,7 +28,7 @@ Example:
 When CMAKE_INSTALL_PREFIX is set to "/home/userX/projects/mykdevplugin/" and
 this is a Debian 64-bit system, open a console and enter:
 
-    export QT_PLUGIN_PATH=$QT_PLUGIN_PATH:/home/userX/projects/mykdevplugin/lib/x86_64-linux-gnu/plugins 
+    export QT_PLUGIN_PATH=$QT_PLUGIN_PATH:/home/userX/projects/mykdevplugin/lib/x86_64-linux-gnu/plugins
 
 Then start KDevelop from that console:
 
