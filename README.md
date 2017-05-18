@@ -1,6 +1,6 @@
 # KDevelop plugin with support for Cargo
 
-[![Build Status](https://travis-ci.org/Noughmad/kdevcargo.svg?branch=master)](https://travis-ci.org/Noughmad/kdevcargo)
+[![Codefresh build status]( https://g.codefresh.io/api/badges/build?repoOwner=Noughmad&repoName=kdevcargo&branch=master&pipelineName=kdevcargo&accountName=Noughmad&type=cf-1)]( https://g.codefresh.io/repositories/Noughmad/kdevcargo/builds?filter=trigger:build;branch:master;service:591d7e9809f4a600015ecd49~kdevcargo)
 
 ## Installation instructions
 
