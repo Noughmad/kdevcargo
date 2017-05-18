@@ -1,24 +1,27 @@
-/************************************************************************
- * KDevelop4 Custom Buildsystem Support                                 *
- *                                                                      *
- * Copyright 2010 Andreas Pakulat <apaku@gmx.de>                        *
- *                                                                      *
- * This program is free software; you can redistribute it and/or modify *
- * it under the terms of the GNU General Public License as published by *
- * the Free Software Foundation; either version 2 or version 3 of the License, or    *
- * (at your option) any later version.                                  *
- *                                                                      *
- * This program is distributed in the hope that it will be useful, but  *
- * WITHOUT ANY WARRANTY; without even the implied warranty of           *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU     *
- * General Public License for more details.                             *
- *                                                                      *
- * You should have received a copy of the GNU General Public License    *
- * along with this program; if not, see <http://www.gnu.org/licenses/>. *
- ************************************************************************/
+/*
+ * This file is part of the Cargo plugin for KDevelop.
+ *
+ * Copyright 2017 Miha Čančula <miha@noughmad.eu>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License or (at your option) version 3 or any later version
+ * accepted by the membership of KDE e.V. (or its successor approved
+ * by the membership of KDE e.V.), which shall act as a proxy
+ * defined in Section 14 of version 3 of the license.
 
-#ifndef CUSTOMBUILDSYSTEMPLUGIN_H
-#define CUSTOMBUILDSYSTEMPLUGIN_H
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#ifndef CARGOPLUGIN_H
+#define CARGOPLUGIN_H
 
 #include <interfaces/iplugin.h>
 #include <project/interfaces/ibuildsystemmanager.h>
@@ -36,7 +39,7 @@ class ProjectBaseItem;
 class IProject;
 }
 
-class Cargo : public KDevelop::AbstractFileManagerPlugin, public KDevelop::IProjectBuilder, public KDevelop::IBuildSystemManager, public IExecutePlugin
+class CargoPlugin : public KDevelop::AbstractFileManagerPlugin, public KDevelop::IProjectBuilder, public KDevelop::IBuildSystemManager, public IExecutePlugin
 {
     Q_OBJECT
     Q_INTERFACES( KDevelop::IProjectBuilder )
@@ -44,8 +47,8 @@ class Cargo : public KDevelop::AbstractFileManagerPlugin, public KDevelop::IProj
     Q_INTERFACES( KDevelop::IBuildSystemManager )
     Q_INTERFACES( IExecutePlugin )
 public:
-    explicit Cargo( QObject *parent = nullptr, const QVariantList &args = QVariantList() );
-    virtual ~Cargo();
+    explicit CargoPlugin( QObject *parent = nullptr, const QVariantList &args = QVariantList() );
+    virtual ~CargoPlugin();
 
 // ProjectBuilder API
     KJob* build( KDevelop::ProjectBaseItem* dom ) override;
