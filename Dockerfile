@@ -4,9 +4,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     kdevplatform-dev \
     cmake \
-    extra-cmake-modules
-
-RUN apt-get install -y \
+    extra-cmake-modules \
     gettext \
     libkf5itemmodels-dev
 
