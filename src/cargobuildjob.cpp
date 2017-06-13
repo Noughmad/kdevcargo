@@ -49,10 +49,11 @@ CargoBuildJob::CargoBuildJob( CargoPlugin* plugin, KDevelop::ProjectBaseItem* it
 
     cmd = "cargo";
 
-    QString title = i18nc("Running '<command> <arguments>'", "Running '%1'", cmd, command);
+    QString title = i18nc("<command> <arguments>", "%1 %2", cmd, command);
     setTitle(title);
     setObjectName(title);
     setDelegate( new KDevelop::OutputDelegate );
+    standardViewType = KDevelop::IOutputView::BuildView;
 }
 
 void CargoBuildJob::start()
@@ -77,7 +78,7 @@ void CargoBuildJob::start()
             arguments << runArguments;
         }
 
-        setStandardToolView( KDevelop::IOutputView::BuildView );
+        setStandardToolView( standardViewType );
         setBehaviours( KDevelop::IOutputView::AllowUserClose | KDevelop::IOutputView::AutoScroll );
         KDevelop::OutputModel* model = new KDevelop::OutputModel( QUrl::fromLocalFile(builddir) );
         model->setFilteringStrategy( KDevelop::OutputModel::CompilerFilter );
@@ -89,7 +90,6 @@ void CargoBuildJob::start()
 
         exec->setArguments( arguments );
         exec->setWorkingDirectory( builddir );
-
         
         connect( exec, &CommandExecutor::completed, this, &CargoBuildJob::procFinished );
         connect( exec, &CommandExecutor::failed, this, &CargoBuildJob::procError );

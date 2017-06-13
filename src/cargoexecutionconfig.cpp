@@ -128,6 +128,8 @@ KJob* CargoLauncher::start(const QString& launchMode, KDevelop::ILaunchConfigura
     if( launchMode == "execute" )
     {
         CargoBuildJob* job = new CargoBuildJob(m_plugin, cfg->project()->projectItem(), QStringLiteral("run"));
+        job->setStandardViewType(KDevelop::IOutputView::RunView);
+        job->setTitle(cfg->name());
 
         QString err;
         QStringList runArguments = m_plugin->arguments(cfg, err);
