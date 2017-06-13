@@ -56,6 +56,7 @@ public:
 
     void setInstallPrefix(const QUrl &installPrefix) { this->installPrefix = installPrefix; }
     void setRunArguments(const QStringList &arguments) { this->runArguments = arguments; }
+    void setStandardViewType(KDevelop::IOutputView::StandardToolView view) { this->standardViewType = view; }
 
 private slots:
     void procFinished(int);
@@ -72,6 +73,7 @@ private:
     KDevelop::CommandExecutor* exec;
     bool killed;
     bool enabled;
+    KDevelop::IOutputView::StandardToolView standardViewType;
 };
 
 #endif 
