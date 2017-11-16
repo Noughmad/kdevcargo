@@ -164,16 +164,6 @@ QList<ProjectTargetItem*> CargoPlugin::targets( ProjectFolderItem* ) const
     return QList<ProjectTargetItem*>();
 }
 
-/*
-
-KConfigGroup CargoPlugin::configuration( IProject* project ) const
-{
-    Q_UNUSED(project);
-    return KConfigGroup();
-}
-
-*/
-
 int CargoPlugin::perProjectConfigPages() const
 {
     return 0;
