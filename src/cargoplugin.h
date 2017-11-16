@@ -85,8 +85,9 @@ public:
     bool removeFilesFromTargets( const QList<KDevelop::ProjectFileItem*>& ) override;
     bool removeTarget( KDevelop::ProjectTargetItem* target ) override;
     QList<KDevelop::ProjectTargetItem*> targets( KDevelop::ProjectFolderItem* ) const override;
-    KConfigGroup configuration( KDevelop::IProject* ) const;
-    KConfigGroup findMatchingPathGroup( const KConfigGroup& cfg, KDevelop::ProjectBaseItem* item ) const;
+    // KConfigGroup configuration( KDevelop::IProject* ) const override;
+    // KConfigGroup findMatchingPathGroup( const KConfigGroup& cfg, KDevelop::ProjectBaseItem* item ) const override;
+    QString extraArguments(KDevelop::ProjectBaseItem* item) const override;
 
 // IPlugin API
 public:
@@ -97,7 +98,7 @@ public:
     QUrl executable(KDevelop::ILaunchConfiguration* config, QString& error) const override;
     QStringList arguments(KDevelop::ILaunchConfiguration* config, QString& error) const override;
     KJob* dependencyJob(KDevelop::ILaunchConfiguration* config) const override;
-    QString environmentGroup(KDevelop::ILaunchConfiguration* config) const override;
+    QString environmentProfileName(KDevelop::ILaunchConfiguration* config) const override;
     QString nativeAppConfigTypeId() const override;
     QString terminal(KDevelop::ILaunchConfiguration* config) const override;
     bool useTerminal(KDevelop::ILaunchConfiguration* config) const override;

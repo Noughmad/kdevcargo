@@ -164,11 +164,15 @@ QList<ProjectTargetItem*> CargoPlugin::targets( ProjectFolderItem* ) const
     return QList<ProjectTargetItem*>();
 }
 
+/*
+
 KConfigGroup CargoPlugin::configuration( IProject* project ) const
 {
     Q_UNUSED(project);
     return KConfigGroup();
 }
+
+*/
 
 int CargoPlugin::perProjectConfigPages() const
 {
@@ -217,8 +221,9 @@ QUrl CargoPlugin::workingDirectory(KDevelop::ILaunchConfiguration* config) const
     return config->project()->path().toUrl();
 }
 
-QString CargoPlugin::environmentGroup(KDevelop::ILaunchConfiguration* /*config*/) const
+QString CargoPlugin::environmentProfileName(KDevelop::ILaunchConfiguration* config) const
 {
+    Q_UNUSED(config);
     return QString();
 }
 
@@ -227,13 +232,21 @@ QString CargoPlugin::nativeAppConfigTypeId() const
     return CargoExecutionConfigType::typeId();
 }
 
-bool CargoPlugin::useTerminal(KDevelop::ILaunchConfiguration* /*config*/) const
+bool CargoPlugin::useTerminal(KDevelop::ILaunchConfiguration* config) const
 {
+    Q_UNUSED(config);
     return false;
 }
 
-QString CargoPlugin::terminal(KDevelop::ILaunchConfiguration* /*config*/) const
+QString CargoPlugin::terminal(KDevelop::ILaunchConfiguration* config) const
 {
+    Q_UNUSED(config);
+    return QString();
+}
+
+QString CargoPlugin::extraArguments(KDevelop::ProjectBaseItem* item) const
+{
+    Q_UNUSED(item);
     return QString();
 }
 
