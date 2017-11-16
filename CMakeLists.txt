@@ -11,7 +11,7 @@ include(KDECompilerSettings NO_POLICY_SCOPE)
 include(ECMQtDeclareLoggingCategory)
 include(ECMInstallIcons)
 
-find_package(KDevPlatform 5.1 REQUIRED)
+find_package(KDevPlatform 5.0 REQUIRED)
 find_package(KF5 5.15.0 REQUIRED COMPONENTS ItemModels)
 
 add_subdirectory(src)

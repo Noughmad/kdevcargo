@@ -28,6 +28,9 @@
 #include <project/interfaces/iprojectbuilder.h>
 #include <project/abstractfilemanagerplugin.h>
 #include <execute/iexecuteplugin.h>
+#include <kdevplatform_version.h>
+
+#define VERSION_5_2 ((5<<16)|(2<<8)|(0))
 
 class KConfigGroup;
 class KDialogBase;
@@ -85,9 +88,10 @@ public:
     bool removeFilesFromTargets( const QList<KDevelop::ProjectFileItem*>& ) override;
     bool removeTarget( KDevelop::ProjectTargetItem* target ) override;
     QList<KDevelop::ProjectTargetItem*> targets( KDevelop::ProjectFolderItem* ) const override;
-    // KConfigGroup configuration( KDevelop::IProject* ) const override;
-    // KConfigGroup findMatchingPathGroup( const KConfigGroup& cfg, KDevelop::ProjectBaseItem* item ) const override;
+
+#if KDEVPLATFORM_VERSION >= VERSION_5_2
     QString extraArguments(KDevelop::ProjectBaseItem* item) const override;
+#endif
 
 // IPlugin API
 public:
@@ -98,7 +102,13 @@ public:
     QUrl executable(KDevelop::ILaunchConfiguration* config, QString& error) const override;
     QStringList arguments(KDevelop::ILaunchConfiguration* config, QString& error) const override;
     KJob* dependencyJob(KDevelop::ILaunchConfiguration* config) const override;
+
+#if KDEVPLATFORM_VERSION >= VERSION_5_2
     QString environmentProfileName(KDevelop::ILaunchConfiguration* config) const override;
+#else
+    QString environmentGroup(KDevelop::ILaunchConfiguration* config) const override;
+#endif
+
     QString nativeAppConfigTypeId() const override;
     QString terminal(KDevelop::ILaunchConfiguration* config) const override;
     bool useTerminal(KDevelop::ILaunchConfiguration* config) const override;

@@ -221,7 +221,11 @@ QUrl CargoPlugin::workingDirectory(KDevelop::ILaunchConfiguration* config) const
     return config->project()->path().toUrl();
 }
 
+#if KDEVPLATFORM_VERSION >= ((5<<16)|(2<<8)|(0))
 QString CargoPlugin::environmentProfileName(KDevelop::ILaunchConfiguration* config) const
+#else
+QString CargoPlugin::environmentGroup(KDevelop::ILaunchConfiguration* config) const
+#endif
 {
     Q_UNUSED(config);
     return QString();
@@ -244,10 +248,12 @@ QString CargoPlugin::terminal(KDevelop::ILaunchConfiguration* config) const
     return QString();
 }
 
+#if KDEVPLATFORM_VERSION >= VERSION_5_2
 QString CargoPlugin::extraArguments(KDevelop::ProjectBaseItem* item) const
 {
     Q_UNUSED(item);
     return QString();
 }
+#endif
 
 #include "cargoplugin.moc"
