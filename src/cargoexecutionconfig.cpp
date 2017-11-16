@@ -30,6 +30,7 @@
 #include <interfaces/iprojectcontroller.h>
 #include <interfaces/iproject.h>
 #include <interfaces/iuicontroller.h>
+#include <interfaces/iruncontroller.h>
 #include <project/projectmodel.h>
 #include <project/builderjob.h>
 #include <serialization/indexedstring.h>

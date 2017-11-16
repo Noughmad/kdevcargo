@@ -164,12 +164,6 @@ QList<ProjectTargetItem*> CargoPlugin::targets( ProjectFolderItem* ) const
     return QList<ProjectTargetItem*>();
 }
 
-KConfigGroup CargoPlugin::configuration( IProject* project ) const
-{
-    Q_UNUSED(project);
-    return KConfigGroup();
-}
-
 int CargoPlugin::perProjectConfigPages() const
 {
     return 0;
@@ -217,8 +211,13 @@ QUrl CargoPlugin::workingDirectory(KDevelop::ILaunchConfiguration* config) const
     return config->project()->path().toUrl();
 }
 
-QString CargoPlugin::environmentGroup(KDevelop::ILaunchConfiguration* /*config*/) const
+#if KDEVPLATFORM_VERSION >= ((5<<16)|(2<<8)|(0))
+QString CargoPlugin::environmentProfileName(KDevelop::ILaunchConfiguration* config) const
+#else
+QString CargoPlugin::environmentGroup(KDevelop::ILaunchConfiguration* config) const
+#endif
 {
+    Q_UNUSED(config);
     return QString();
 }
 
@@ -227,14 +226,24 @@ QString CargoPlugin::nativeAppConfigTypeId() const
     return CargoExecutionConfigType::typeId();
 }
 
-bool CargoPlugin::useTerminal(KDevelop::ILaunchConfiguration* /*config*/) const
+bool CargoPlugin::useTerminal(KDevelop::ILaunchConfiguration* config) const
 {
+    Q_UNUSED(config);
     return false;
 }
 
-QString CargoPlugin::terminal(KDevelop::ILaunchConfiguration* /*config*/) const
+QString CargoPlugin::terminal(KDevelop::ILaunchConfiguration* config) const
 {
+    Q_UNUSED(config);
     return QString();
 }
+
+#if KDEVPLATFORM_VERSION >= VERSION_5_2
+QString CargoPlugin::extraArguments(KDevelop::ProjectBaseItem* item) const
+{
+    Q_UNUSED(item);
+    return QString();
+}
+#endif
 
 #include "cargoplugin.moc"
