@@ -28,12 +28,126 @@
 #include <interfaces/iproject.h>
 #include <outputview/outputmodel.h>
 #include <outputview/outputdelegate.h>
+#include <outputview/filtereditem.h>
+#include <outputview/outputfilteringstrategies.h>
 #include <util/commandexecutor.h>
 #include <project/projectmodel.h>
 
 #include "cargoplugin.h"
 
 using namespace KDevelop;
+
+class CargoFilterStrategy : public KDevelop::IFilterStrategy
+{
+public:
+    explicit CargoFilterStrategy(const QUrl& buildDir);
+    virtual ~CargoFilterStrategy();
+
+    FilteredItem errorInLine(const QString& line) override;
+    FilteredItem actionInLine(const QString& line) override;
+
+private:
+    KDevelop::Path buildDir;
+    QString currentFile;
+    KDevelop::FilteredItem::FilteredOutputItemType currentItemType;
+};
+
+CargoFilterStrategy::CargoFilterStrategy(const QUrl& buildDir)
+ : buildDir(buildDir)
+{
+}
+
+CargoFilterStrategy::~CargoFilterStrategy()
+{
+}
+
+KDevelop::FilteredItem CargoFilterStrategy::errorInLine(const QString& line)
+{
+    KDevelop::FilteredItem item(line);
+    if (line.startsWith(QStringLiteral("error:")) || line.startsWith(QStringLiteral("error[")))
+    {
+        item.type = FilteredItem::ErrorItem;
+    }
+    else if (line.startsWith(QStringLiteral("warning:")) || line.startsWith(QStringLiteral("warning[")))
+    {
+        item.type = FilteredItem::WarningItem;
+    }
+    else if (line.startsWith(QStringLiteral("   Compiling"))
+            || line.startsWith(QStringLiteral("    Finished")))
+    {
+        item.type = FilteredItem::ActionItem;
+    }
+    else
+    {
+        QStringList elements = line.split(' ', QString::SkipEmptyParts);
+        if (elements.size() > 1 && elements[0] == QStringLiteral("-->"))
+        {
+            item.type = currentItemType;
+            QStringList location = elements[1].split(':');
+            if (location.size() > 0)
+            {
+                currentFile = location[0];
+
+                item.isActivatable = true;
+                item.url = Path(buildDir, currentFile).toUrl();
+                if (location.size() > 1)
+                {
+                    /*
+                     * Cargo counts lines from 1, and so does Kate,
+                     * but KDevelop internally counts from 0,
+                     * so we have to decrement the line number by 1.
+                     * The same is true for column numbers.
+                     */
+                    item.lineNo = location[1].toInt() - 1;
+                }
+                if (location.size() > 2)
+                {
+                    item.columnNo = location[2].toInt() - 1;
+                }
+            }
+        }
+        else if (elements.size() >= 1 && (elements[0] == '|' || elements[0] == '='))
+        {
+            item.type = FilteredItem::InformationItem;
+        }
+        else if (elements.size() >= 2 && elements[1] == '|')
+        {
+            item.type = FilteredItem::InformationItem;
+            item.isActivatable = true;
+            item.url = Path(buildDir, currentFile).toUrl();
+            item.lineNo = elements[0].toInt() - 1;
+
+            /*
+             * We determine the column number from the line itself,
+             * as the first non-space character after the line number and '|'.
+             */
+            int idx = elements[0].size() + 3;
+            int length = line.size();
+
+            item.columnNo = 0;
+            for (int i = idx; i < length; ++i)
+            {
+                if (!line[i].isSpace())
+                {
+                    item.columnNo = i - idx;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            item.type = FilteredItem::StandardItem;
+        }
+    }
+    currentItemType = item.type;
+    return item;
+}
+
+KDevelop::FilteredItem CargoFilterStrategy::actionInLine(const QString& line)
+{
+    return KDevelop::FilteredItem(line);
+}
+
 
 CargoBuildJob::CargoBuildJob( CargoPlugin* plugin, KDevelop::ProjectBaseItem* item, const QString& command )
     : OutputJob( plugin )
@@ -80,8 +194,9 @@ void CargoBuildJob::start()
 
         setStandardToolView( standardViewType );
         setBehaviours( KDevelop::IOutputView::AllowUserClose | KDevelop::IOutputView::AutoScroll );
-        KDevelop::OutputModel* model = new KDevelop::OutputModel( QUrl::fromLocalFile(builddir) );
-        model->setFilteringStrategy( KDevelop::OutputModel::CompilerFilter );
+        QUrl buildUrl = QUrl::fromLocalFile(builddir);
+        KDevelop::OutputModel* model = new KDevelop::OutputModel(buildUrl);
+        model->setFilteringStrategy(new CargoFilterStrategy(buildUrl));
         setModel( model );
 
         startOutput();
