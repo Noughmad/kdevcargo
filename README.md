@@ -1,6 +1,6 @@
 # KDevelop plugin with support for Cargo
 
-[![Codefresh build status]( https://g.codefresh.io/api/badges/build?repoOwner=Noughmad&repoName=kdevcargo&branch=master&pipelineName=kdevcargo&accountName=Noughmad&type=cf-1)]( https://g.codefresh.io/repositories/Noughmad/kdevcargo/builds?filter=trigger:build;branch:master;service:591d7e9809f4a600015ecd49~kdevcargo)
+[![Codefresh build status]( https://g.codefresh.io/api/badges/build?repoOwner=Noughmad&repoName=kdevcargo&branch=master&accountName=Noughmad&pipelineName=kdevcargo&type=cf-1)]( https://g.codefresh.io/repositories/Noughmad/kdevcargo/builds?filter=trigger:build;branch:master;service:591d7e9809f4a600015ecd49~kdevcargo)
 
 This plugin enables the use of Cargo to manage, build and run Rust packages (crates) with Cargo.
 
