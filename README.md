@@ -3,8 +3,13 @@
 [![Codefresh build status]( https://g.codefresh.io/api/badges/build?repoOwner=Noughmad&repoName=kdevcargo&branch=master&pipelineName=kdevcargo&accountName=Noughmad&type=cf-1)]( https://g.codefresh.io/repositories/Noughmad/kdevcargo/builds?filter=trigger:build;branch:master;service:591d7e9809f4a600015ecd49~kdevcargo)
 
 This plugin enables the use of Cargo to manage, build and run Rust packages (crates) with Cargo.
-It recognizes `Cargo.toml` files as project files, builds them using `cargo build`, and allows easy run configuration using `cargo run`.
 
+## Features
+
+- Recognize `Cargo.toml` files as project files and allows to open them as projects
+- Builds projects using `cargo build`
+- Configure launches using `cargo run` with possibility to set a binary name and arguments
+- Colored and clickable `cargo build` output for quick jumping to lines with errors or warnings
 
 ## Installation instructions
 
@@ -19,7 +24,7 @@ Download this repository, then run
 
 This installs to a system directory, most likely `/usr/local`, but it will not be picked up by KDevelop.
 To make KDevelop load this plugin, set the `QT_PLUGIN_PATH` environment variable to point to its install location.
-If it was installed to `/usr/local/lib64/plugins/kdevplatform/27/kdevcargo.so`, run from a console
+If it was installed to `/usr/local/lib64/plugins/kdevplatform/<version>/kdevcargo.so`, run from a console
 
     QT_PLUGIN_PATH=${QT_PLUGIN_PATH}:/usr/local/lib64/plugins kdevelop
 
