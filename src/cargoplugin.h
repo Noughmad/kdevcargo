@@ -89,6 +89,8 @@ public:
     bool removeTarget( KDevelop::ProjectTargetItem* target ) override;
     QList<KDevelop::ProjectTargetItem*> targets( KDevelop::ProjectFolderItem* ) const override;
 
+    virtual KDevelop::Path compiler(KDevelop::ProjectTargetItem* p) const final { return {}; }
+
 #if KDEVPLATFORM_VERSION >= VERSION_5_2
     QString extraArguments(KDevelop::ProjectBaseItem* item) const override;
 #endif
